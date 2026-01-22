@@ -5,6 +5,7 @@ resource "aws_lambda_function" "this" {
   handler       = "handler.lambda_handler"
   timeout       = 10
 
-  filename         = "lambda.zip"
-  source_code_hash = filebase64sha256("lambda.zip")
+  source_code_hash = filebase64sha256("${path.root}/lambda.zip")
+  filename         = "${path.root}/lambda.zip"
+
 }
