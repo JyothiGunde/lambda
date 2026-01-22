@@ -24,9 +24,6 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v3
 
-      - name: Package Lambda
-        run: zip lambda.zip lambda_src/handler.py
-
       - name: Terraform Init
         run: terraform init
 
