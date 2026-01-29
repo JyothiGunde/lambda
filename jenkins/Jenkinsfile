@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_ACCEESS_KEY_ID = creedentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = creedentials('aws-secret-access-key')
+        AWS_DEFAULT_REGION = "us-east-1"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                dir('terrafrom') {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terrafrom Validate'){
+            steps{
+                dir('terraform') {
+                    sh 'terraform validate'
+                }
+            }
+        }
+
+        stage('Terrafrom Plan') {
+            steps {
+                dir('terraform') {
+                    sh 'terraform plan'
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            when {
+                branch 'main'
+            }
+            steps {
+                dir('terraform') {
+                    sh 'terraform apply -auto-approve'
+                }
+            }
+        }
+    }
+}
