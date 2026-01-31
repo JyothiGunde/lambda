@@ -21,19 +21,23 @@ pipeline {
             }
         }
 
-        stage('Terrafrom Validate'){
+        stage('Terraform Validate'){
             steps{
                 sh 'terraform validate'
             }
         }
 
-        stage('Terrafrom Plan') {
+        stage('Terraform Plan') {
             steps {
                 sh 'terraform plan'
             }
         }
 
         stage('Terraform Apply') {
+            when {
+                branch 'main'
+            }
+
             steps {
                 sh 'terraform apply -auto-approve'
             }
