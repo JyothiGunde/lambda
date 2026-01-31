@@ -5,7 +5,7 @@ data "archive_file" "lambda_zip" {
 }
 
 resource "aws_lambda_function" "this" {
-  function_name = "example-lambda"
+  function_name = "lambda"
   role          = var.iam_role
   runtime       = "python3.11"
   handler       = "handler.lambda_handler"
