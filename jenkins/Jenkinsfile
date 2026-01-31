@@ -42,15 +42,16 @@ pipeline {
 
         stage('Terraform Destroy') {
             when {
-                experssion { return params.DESTROY_INFRA == true }
+                expression { return params.DESTROY_INFRA == true }
             }
             steps {
                 sh 'terraform destroy -auto-approve'
             }
         }
 
-        parameters {
-            booleanParam(name: 'DESTROY_INFRA', default.Value: false, description: 'set true to destroy infra')
-        }
     }
+
+    parameters {
+            booleanParam(name: 'DESTROY_INFRA', defaultValue: false, description: 'set true to destroy infra')
+        }
 }
