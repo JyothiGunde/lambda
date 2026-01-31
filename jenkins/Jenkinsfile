@@ -29,17 +29,16 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan'
+                sh 'terraform plan -out tfplan'
+                stash name: 'tfplan', includes: 'tfplan'
             }
         }
 
         stage('Terraform Apply') {
-            when {
-                branch 'main'
-            }
 
             steps {
-                sh 'terraform apply -auto-approve'
+                unstash 'tfplan'
+                sh 'terraform apply tfplan'
             }
         }
     }
