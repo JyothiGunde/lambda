@@ -39,5 +39,18 @@ pipeline {
                 sh 'terraform apply tfplan'
             }
         }
+
+        stage('Terraform Destroy') {
+            when {
+                experssion { return params.DESTROY_INFRA == true }
+            }
+            steps {
+                sh 'terraform destroy -auto-approve'
+            }
+        }
+
+        parameters {
+            booleanParam(name: 'DESTROY_INFRA', default.Value: false, description: 'set true to destroy infra')
+        }
     }
 }
